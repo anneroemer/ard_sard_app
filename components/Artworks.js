@@ -10,11 +10,17 @@ const Artworks = () => {
 
     const [artworks, setArtworks] = useState();
 
+    //lav en useState webkit-text-stroke-color:     
+    //const [colorFromArtworks, setColorFromArtworks] = useState();
+    //gem i ColorContext så den kan tilgås fra den anden fil
+
+
     useEffect(() => {
         axios(`https://api.artic.edu/api/v1/artworks?limit=40`, {
         })
         .then((result) => {
             setArtworks(result.data.data)
+            console.log(result.data.data)
         });
 		}
 	, []);

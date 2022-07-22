@@ -1,4 +1,5 @@
 import Layout from '../components/Layout'
+import ColorProvider from '../contexts/ColorContext'
 import '../styles/globals.css'
 
 //we are nesting all content inside a layout component
@@ -7,7 +8,9 @@ import '../styles/globals.css'
 function MyApp({ Component, pageProps }) {
   return (
     <Layout>
-      <Component {...pageProps} />
+      <ColorProvider>
+        <Component {...pageProps} />
+      </ColorProvider>
     </Layout>
   )
 }

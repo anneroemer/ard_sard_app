@@ -1,5 +1,6 @@
 import { useRouter } from "next/dist/client/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { ColorContext } from "/Users/anneromer/Documents/Github_anneroemer/ard_sard_app/contexts/ColorContext";
 import axios from "axios";
 import Image from "next/image";
 import { IoArrowBackSharp } from "react-icons/io5";
@@ -10,6 +11,9 @@ const Artwork = () => {
 
     const router = useRouter();
     const {id} = router.query;
+    const { color } = useContext(ColorContext);
+    console.log(color)
+
 
     const [artwork, setArtwork] = useState();
 

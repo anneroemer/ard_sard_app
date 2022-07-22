@@ -1,17 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ColorContext } from '../contexts/ColorContext';
 import Link from "next/link";
 import axios from "axios";
 import Image from "next/image";
 import { IoArrowForwardSharp } from "react-icons/io5";
+import { ColorExtractor } from 'react-color-extractor';
+
 
 const Artworks = () => {
 
     const [artworks, setArtworks] = useState();
+    const { setColor } = useContext(ColorContext);
 
+    //https://www.npmjs.com/package/react-color-extractor
     //lav en useState webkit-text-stroke-color:     
-    //const [colorFromArtworks, setColorFromArtworks] = useState();
+    //     const { setColor } = useContext(ColorContext);
+    const [colorFromArtworks, setColorFromArtworks] = useState([]);
+    console.log(colorFromArtworks)
     //gem i ColorContext så den kan tilgås fra den anden fil
 
 
@@ -109,8 +116,17 @@ const Artworks = () => {
         <ul css={style}>
             {artworks?.map((artwork, index) => (
                 <li key={index} className="listItem">
-                    <Link href={`/artwork/${artwork.id}`} className="listItem__link" scroll>
-                        <a className="listItem__linkAnchor">
+                    <ColorExtractor 
+                        src={`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg` } 
+                        getColors={colors => {
+                            //console.log(index + colors[0])
+                            setColorFromArtworks([colors[0]])
+                            //console.log(index + colors[0])
+                            //setColor(colors[0])
+                        }} 
+                        />
+                    <Link href={`/artwork/${artwork.id}`}  className="listItem__link" scroll>
+                        <a className="listItem__linkAnchor" onClick={() => setColor(colorFromArtworks[index])}>
                             <div className="listItem__textBox">
                                 <h2 className="listItem__title">{artwork.title}</h2>
                                 <p className="listItem__artist">{artwork.artist_title ? artwork.artist_title : "unknown"}</p>
@@ -118,6 +134,10 @@ const Artworks = () => {
                             </div>
                             <IoArrowForwardSharp className="listItem__arrow"/>
                             <div className="listItem__imgContainer">
+
+
+                            
+
                                 <Image src={`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg` } 
                                 alt={artwork.artist_title} 
                                 // width={400} 
@@ -126,6 +146,8 @@ const Artworks = () => {
                                 layout="fill"
                                 className="listItem__img"
                                 />
+
+
                             </div>
                             <div className="overlay"></div>
                         </a>
